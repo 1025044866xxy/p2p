@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true">
+    <property name="project" value="p2p"/>
+    <springProfile name="dev">
+        <property name="logRoot" value="../p2p-logs/dev"/>
+        <property name="logLevel" value="debug"/>
+    </springProfile><appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{16}] %msg%n
+        </pattern>
+    </encoder>
+</appender>
+
+    <appender name="dao" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logRoot}/p2p_dao.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{16}] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="service" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logRoot}/p2p_service.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{16}] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="controller" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logRoot}/p2p_controller.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{16}] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="interceptor" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logRoot}/p2p_interceptor.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{16}] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="exception" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logRoot}/xxy_exception.%d{yyyy-MM-dd}.log
+            </FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{16}] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="controller"/>
+    </logger>
+
+    <logger name="com.xxy.${project}.daodao" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="dao"/>
+    </logger>
+    <logger name="com.xxy.${project}.service" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="service"/>
+    </logger>
+    <logger name="com.xxy.${project}.controller" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="controller"/>
+    </logger>
+    <logger name="com.xxy.${project}.interceptor" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="interceptor"/>
+    </logger>
+    <logger name="com.xxy.${project}.exception" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="exception"/>
+    </logger>
+
+    <!-- sql 是mybatis-config.xml配置的别名 -->
+    <logger name="sql" level="${logLevel}" additivity="false">
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <root level="warn">
+        <appender-ref ref="Console"/>
+    </root>
+
+    <root level="error">
+        <appender-ref ref="Console"/>
+    </root>
+
+</configuration>

@@ -1,0 +1,75 @@
+HELP.md
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
+
+### VS Code ###
+.vscode/
+
+# Created by .ignore support plugin (hsz.mobi)
+.vscode
+.idea/*
+_ide_helper.php
+.DS_Store
+xxy-logs/
+logs/
+.bat
+.env
+.tmp
+*.iml
+mvnw
+mvnw.cmd
+.mvn/
+*/target/*
+*.ipr
+*.iws
+node_modules/
+output/
+package-lock.json
+
+
+df-img-resources/upload/
+
+.project
+.settings/
+.classpath
+target/
+bin/
+deepfashion-console/dependency-reduced-pom.xml
+df-local-debug/localServer
+
+ruhnn/
+log_sso/
+ske-logs
+
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+out
+gen
+.idea/
+
