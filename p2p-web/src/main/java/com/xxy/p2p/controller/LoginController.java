@@ -35,7 +35,7 @@ public class LoginController {
         return token;
     }
 
-    @GetMapping("/gister")
+    @GetMapping("/register")
     public Boolean register(@NotBlank String accountNumber, @NotBlank String password){
         UserDO userDO = userService.getByAccountNumber(accountNumber);
         Assert.isTrue(userDO == null, ErrorCodeEnum.X03.getCode());

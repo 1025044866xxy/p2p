@@ -8,6 +8,7 @@
 //import org.springframework.boot.jdbc.DataSourceBuilder;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.Primary;
 //import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 //
 //import javax.sql.DataSource;
@@ -18,7 +19,8 @@
 //    @Autowired
 //    ExecteSqlLogInterceptor execteSqlLogInterceptor;
 //
-//    @ConfigurationProperties(prefix = "spring.datasource")
+//    @Primary
+//    @ConfigurationProperties(prefix = "spring.datasource.p2p")
 //    public DataSource skeDataDataSource() {
 //        return DataSourceBuilder.create().type(HikariDataSource.class).build();
 //    }
