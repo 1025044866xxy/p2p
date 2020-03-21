@@ -7,16 +7,24 @@ import com.xxy.p2p.code.ErrorCodeEnum;
 import com.xxy.p2p.constant.PageSetConstant;
 import com.xxy.p2p.entity.domain.UserDO;
 import com.xxy.p2p.service.TokenHelperService;
+import com.xxy.p2p.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class BaseController {
 
 
     @Autowired
     TokenHelperService tokenHelperService;
+
+    @Autowired
+    UserService userService;
 
     public PageSet getPage(HttpServletRequest request) {
         // 返回数据的最后一条id
@@ -75,7 +83,12 @@ public abstract class BaseController {
 
     protected UserDO getUserInfo(HttpServletRequest request){
         String token = request.getHeader("token");
-        return tokenHelperService.get(token);
+        Integer userId =  tokenHelperService.get(token);
+        List<UserDO> userDOS = userService.getByIdList(Arrays.asList(userId));
+        if(!CollectionUtils.isEmpty(userDOS)){
+            return userDOS.get(0);
+        }
+        return null;
     }
 
 }

@@ -8,7 +8,7 @@ public interface TokenHelperService {
 
     boolean check(String token);
 
-    UserDO get(String token);
+    Integer get(String token);
 
     boolean delete(String token);
 }

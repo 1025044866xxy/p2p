@@ -17,20 +17,51 @@
         <if test="example.accountNumber != null and example.accountNumber != ''">
             and account_number = #{example.accountNumber}
         </if>
+        <if test="example.idList != null and example.idList.size() > 0">
+            and id in
+            <foreach collection="example.idList" open="(" close=")" separator="," item="id">
+                #{id}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="insert">
         insert into
-          p2p_user (account_number, password)
+            p2p_user (account_number, password)
         values
-          (#{accountNumber}, #{password})
+            (#{accountNumber}, #{password})
     </insert>
+
+    <update id="update">
+        update
+            <include refid="CURRENT_TABLE_NAME"/>
+        <set>
+            user_name = #{update.userName},
+            age = #{update.age},
+            gender = #{update.gender},
+            phone = #{update.phone},
+            mail = #{update.mail}
+        </set>
+        <where>
+            and id = #{id}
+        </where>
+    </update>
 
     <select id="getByExample" resultType="com.xxy.p2p.entity.domain.UserDO">
         select
-          <include refid="Base_column_List"/>
+            <include refid="Base_column_List"/>
         from
-          <include refid="CURRENT_TABLE_NAME"/>
+            <include refid="CURRENT_TABLE_NAME"/>
+        <where>
+            <include refid="Where_Example_Many"/>
+        </where>
+    </select>
+
+    <select id="listByExample" resultType="com.xxy.p2p.entity.domain.UserDO">
+        select
+            <include refid="Base_column_List"/>
+        from
+            <include refid="CURRENT_TABLE_NAME"/>
         <where>
             <include refid="Where_Example_Many"/>
         </where>

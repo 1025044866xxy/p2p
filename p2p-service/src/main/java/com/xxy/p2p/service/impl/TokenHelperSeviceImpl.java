@@ -26,7 +26,7 @@ public class TokenHelperSeviceImpl  implements TokenHelperService{
             redisClient.remove(existToken);
         }
         redisClient.set(key, token);
-        redisClient.set(token, JSON.toJSONString(userDO));
+        redisClient.set(token, userDO.getId().toString());
         return token;
     }
 
@@ -40,7 +40,7 @@ public class TokenHelperSeviceImpl  implements TokenHelperService{
     }
 
     @Override
-    public UserDO get(String token) {
+    public Integer get(String token) {
         if(StringUtils.isBlank(token)){
             return null;
         }
@@ -48,7 +48,7 @@ public class TokenHelperSeviceImpl  implements TokenHelperService{
         if(StringUtils.isBlank(value)){
             return null;
         }
-        return JSON.parseObject(value, UserDO.class);
+        return Integer.parseInt(value);
     }
 
     @Override
