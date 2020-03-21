@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -17,9 +18,9 @@ public class UserController extends BaseController{
     @Resource
     UserService userService;
 
-    @GetMapping("/register")
-    public SuccessResponse<Boolean> register(@NotBlank String accountNumber, @NotBlank String password){
-        UserDO userDO = userService.getByAccountNumber(accountNumber);
-        return getSuccessResponse(true);
+    @GetMapping("/info")
+    public SuccessResponse<UserDO> register(HttpServletRequest request){
+        UserDO userDO = getUserInfo(request);
+        return getSuccessResponse(userDO);
     }
 }

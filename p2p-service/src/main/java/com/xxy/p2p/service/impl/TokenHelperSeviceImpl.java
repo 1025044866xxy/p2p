@@ -21,18 +21,29 @@ public class TokenHelperSeviceImpl  implements TokenHelperService{
     public String create(UserDO userDO) {
         String key = TokenConstant.tokenKeyPrefix + userDO.getId();
         String token = UUID.randomUUID().toString();
+        String existToken = redisClient.get(key);
+        if(StringUtils.isNotBlank(existToken)){
+            redisClient.remove(existToken);
+        }
+        redisClient.set(key, token);
         redisClient.set(token, JSON.toJSONString(userDO));
         return token;
     }
 
     @Override
     public boolean check(String token) {
+        if(StringUtils.isBlank(token)){
+            return false;
+        }
         String value = redisClient.get(token);
-        return StringUtils.isBlank(value);
+        return StringUtils.isNotBlank(value);
     }
 
     @Override
     public UserDO get(String token) {
+        if(StringUtils.isBlank(token)){
+            return null;
+        }
         String value = redisClient.get(token);
         if(StringUtils.isBlank(value)){
             return null;
