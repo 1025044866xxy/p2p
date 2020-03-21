@@ -48,7 +48,7 @@ public class TokenHelperSeviceImpl  implements TokenHelperService{
         if(StringUtils.isBlank(value)){
             return null;
         }
-        return (UserDO)JSON.parse(value);
+        return JSON.parseObject(value, UserDO.class);
     }
 
     @Override
