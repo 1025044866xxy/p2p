@@ -1,16 +1,16 @@
 package com.xxy.p2p.service;
 
-import com.xxy.p2p.entity.domain.UserDO;
+import com.xxy.p2p.entity.domain.UserInfoDO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface UserService {
-    UserDO getByAccountNumber(String accountNumber);
+    UserInfoDO getByAccountNumber(String accountNumber);
 
-    Boolean insert(UserDO userDO);
+    Boolean insert(UserInfoDO userInfoDO);
 
-    Boolean update(@Param("id") Integer id, @Param("update") UserDO update);
+    Boolean update(@Param("id") Integer id, @Param("update") UserInfoDO update);
 
-    List<UserDO> getByIdList(List<Integer> idList);
+    List<UserInfoDO> getByIdList(List<Integer> idList);
 }

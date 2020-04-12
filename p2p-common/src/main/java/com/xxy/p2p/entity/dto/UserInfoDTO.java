@@ -1,15 +1,10 @@
-package com.xxy.p2p.entity.domain;
+package com.xxy.p2p.entity.dto;
 
-import com.xxy.p2p.base.BaseDO;
 import lombok.Data;
 
 @Data
-public class UserDO extends BaseDO {
+public class UserInfoDTO {
     private Integer id;
-
-    private String accountNumber;
-
-    private String password;
 
     private String userName;
 

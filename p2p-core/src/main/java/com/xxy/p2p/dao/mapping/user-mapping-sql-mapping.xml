@@ -10,10 +10,11 @@
     </sql>
 
     <sql id="CURRENT_TABLE_NAME">
-        p2p_user
+        user_info
     </sql>
 
     <sql id="Where_Example_Many">
+        and deleted_flag = 0
         <if test="example.accountNumber != null and example.accountNumber != ''">
             and account_number = #{example.accountNumber}
         </if>
@@ -27,7 +28,7 @@
 
     <insert id="insert">
         insert into
-            p2p_user (account_number, password)
+            user_info (account_number, password)
         values
             (#{accountNumber}, #{password})
     </insert>
@@ -47,7 +48,7 @@
         </where>
     </update>
 
-    <select id="getByExample" resultType="com.xxy.p2p.entity.domain.UserDO">
+    <select id="getByExample" resultType="com.xxy.p2p.entity.domain.UserInfoDO">
         select
             <include refid="Base_column_List"/>
         from
@@ -57,7 +58,7 @@
         </where>
     </select>
 
-    <select id="listByExample" resultType="com.xxy.p2p.entity.domain.UserDO">
+    <select id="listByExample" resultType="com.xxy.p2p.entity.domain.UserInfoDO">
         select
             <include refid="Base_column_List"/>
         from

@@ -1,9 +1,8 @@
 package com.xxy.p2p.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.xxy.p2p.constant.TokenConstant;
 import com.xxy.p2p.dao.config.RedisClient;
-import com.xxy.p2p.entity.domain.UserDO;
+import com.xxy.p2p.entity.domain.UserInfoDO;
 import com.xxy.p2p.service.TokenHelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.lang3.StringUtils;
@@ -18,15 +17,15 @@ public class TokenHelperSeviceImpl  implements TokenHelperService{
     RedisClient redisClient;
 
     @Override
-    public String create(UserDO userDO) {
-        String key = TokenConstant.tokenKeyPrefix + userDO.getId();
+    public String create(UserInfoDO userInfoDO) {
+        String key = TokenConstant.tokenKeyPrefix + userInfoDO.getId();
         String token = UUID.randomUUID().toString();
         String existToken = redisClient.get(key);
         if(StringUtils.isNotBlank(existToken)){
             redisClient.remove(existToken);
         }
         redisClient.set(key, token);
-        redisClient.set(token, userDO.getId().toString());
+        redisClient.set(token, userInfoDO.getId().toString());
         return token;
     }
 

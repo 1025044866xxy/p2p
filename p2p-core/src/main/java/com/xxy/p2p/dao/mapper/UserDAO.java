@@ -1,6 +1,6 @@
 package com.xxy.p2p.dao.mapper;
 
-import com.xxy.p2p.entity.domain.UserDO;
+import com.xxy.p2p.entity.domain.UserInfoDO;
 import com.xxy.p2p.entity.example.UserExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -9,11 +9,11 @@ import java.util.List;
 
 @Mapper
 public interface UserDAO {
-    UserDO getByExample(@Param("example") UserExample userExample);
+    UserInfoDO getByExample(@Param("example") UserExample userExample);
 
-    Integer insert(UserDO userDO);
+    Integer insert(UserInfoDO userInfoDO);
 
-    int update(Integer id, UserDO update);
+    int update(Integer id, UserInfoDO update);
 
-    List<UserDO> listByExample(@Param("example") UserExample userExample);
+    List<UserInfoDO> listByExample(@Param("example") UserExample userExample);
 }
