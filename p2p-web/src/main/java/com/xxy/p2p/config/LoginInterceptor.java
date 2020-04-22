@@ -1,8 +1,10 @@
 package com.xxy.p2p.config;
 
+import com.xxy.p2p.code.ErrorCodeEnum;
 import com.xxy.p2p.service.TokenHelperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -31,6 +33,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         //token验证
         String authStr = request.getHeader("token");
-        return tokenHelperService.check(authStr);
+        boolean flag = tokenHelperService.check(authStr);
+        Assert.isTrue(flag, ErrorCodeEnum.X04.getCode());
+        return flag;
     }
 }
