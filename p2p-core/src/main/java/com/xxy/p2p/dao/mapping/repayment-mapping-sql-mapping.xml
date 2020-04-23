@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xxy.p2p.dao.mapper.RepaymentDAO">
+
+    <sql id="Base_column_List">
+        id, user_id, money, date
+    </sql>
+
+    <sql id="CURRENT_TABLE_NAME">
+        user_repayment
+    </sql>
+
+    <sql id="Where_Example_Many">
+        <if test="example.userId != null">
+            and user_id = #{example.userId}
+        </if>
+        <if test="example.id != null">
+            and id = #{example.id}
+        </if>
+    </sql>
+
+    <insert id="insert">
+        insert into
+            user_repayment_detail (user_id, money)
+        values
+            (#{userId}, #{money})
+    </insert>
+
+    <select id="getByExample" resultType="com.xxy.p2p.entity.domain.BorrowDO">
+        select
+            <include refid="Base_column_List"/>
+        from
+            <include refid="CURRENT_TABLE_NAME"/>
+        <where>
+            <include refid="Where_Example_Many"/>
+        </where>
+    </select>
+
+    <select id="listByExample" resultType="com.xxy.p2p.entity.domain.UserInfoDO">
+        select
+            <include refid="Base_column_List"/>
+        from
+            <include refid="CURRENT_TABLE_NAME"/>
+        <where>
+            <include refid="Where_Example_Many"/>
+        </where>
+    </select>
+</mapper>

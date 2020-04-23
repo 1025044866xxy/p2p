@@ -6,7 +6,13 @@ public enum ErrorCodeEnum implements ErrorCodeInter {
     X01("X01", "用户不存在"),
     X02("X02", "密码错误"),
     X03("X03", "用户已存在"),
-    X04("X04", "请重新登录")
+    X04("X04", "请重新登录"),
+
+
+
+
+
+    P01("P01","参数缺失"),
     ;
 
     private String code;
