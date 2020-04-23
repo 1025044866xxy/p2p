@@ -20,15 +20,14 @@ public class MyBatisConfiguration {
     ExecteSqlLogInterceptor execteSqlLogInterceptor;
 
     @Primary
-    @ConfigurationProperties(prefix = "spring.datasource.p2p")
-    public DataSource skeDataDataSource() {
+    public DataSource dataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(skeDataDataSource());
+        sqlSessionFactoryBean.setDataSource(dataSource());
         PathMatchingResourcePatternResolver pathMatchResolver = new PathMatchingResourcePatternResolver();
         sqlSessionFactoryBean.setMapperLocations(
                 pathMatchResolver.getResources("classpath:com/xxy/p2p/dao/mapping/*-sql-mapping.xml"));
