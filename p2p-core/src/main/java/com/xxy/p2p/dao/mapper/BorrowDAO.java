@@ -5,6 +5,8 @@ package com.xxy.p2p.dao.mapper;
         import org.apache.ibatis.annotations.Mapper;
         import org.apache.ibatis.annotations.Param;
 
+        import java.util.List;
+
 @Mapper
 public interface BorrowDAO {
     int insert(BorrowDO borrowDO);
@@ -12,4 +14,6 @@ public interface BorrowDAO {
     BorrowDO getByExample(@Param("example") BorrowExample example);
 
     int update(@Param("update") BorrowDO update);
+
+    List<BorrowDO> listByExample(@Param("example") BorrowExample example);
 }

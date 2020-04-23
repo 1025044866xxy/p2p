@@ -15,7 +15,6 @@ public class PageSet<T> extends BaseDO {
     public Integer totallPageCount;
     public Object param;
     private List<T> resultList;
-    private String boundaryId;
 
     public PageSet(Integer start, Integer pageSize) {
         this.start = start;

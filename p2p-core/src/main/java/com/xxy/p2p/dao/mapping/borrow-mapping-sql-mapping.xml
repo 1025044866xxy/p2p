@@ -60,7 +60,7 @@
         </where>
     </select>
 
-    <select id="listByExample" resultType="com.xxy.p2p.entity.domain.UserInfoDO">
+    <select id="listByExample" resultType="com.xxy.p2p.entity.domain.BorrowDO">
         select
             <include refid="Base_column_List"/>
         from

@@ -29,7 +29,6 @@ public abstract class BaseController {
 
     public PageSet getPage(HttpServletRequest request) {
         // 返回数据的最后一条id
-        String boundaryId = request.getParameter(PageSetConstant.BOUNDARY_ID);
         String pageNoStr = request.getParameter(PageSetConstant.PAGESET_PARAMETER);
         String sizeStr = request.getParameter(PageSetConstant.PAGESET_PAGESIZE);
         String start = request.getParameter(PageSetConstant.PAGESET_START);
@@ -48,10 +47,6 @@ public abstract class BaseController {
 
         if (StringUtils.isNotBlank(start)) {
             pageSet.setStart(Integer.parseInt(start));
-        }
-
-        if (StringUtils.isNotBlank(boundaryId)) {
-            pageSet.setBoundaryId(boundaryId);
         }
 
         if (StringUtils.isNotBlank(pageNoStr)) {

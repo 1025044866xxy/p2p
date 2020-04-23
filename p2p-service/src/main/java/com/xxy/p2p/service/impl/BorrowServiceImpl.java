@@ -5,6 +5,7 @@ import com.xxy.p2p.dao.mapper.BorrowDAO;
 import com.xxy.p2p.dao.mapper.RepaymentDAO;
 import com.xxy.p2p.entity.domain.BorrowDO;
 import com.xxy.p2p.entity.domain.RepaymentDO;
+import com.xxy.p2p.entity.dto.UserBorrowTotalDTO;
 import com.xxy.p2p.entity.example.BorrowExample;
 import com.xxy.p2p.entity.request.BorrowRequest;
 import com.xxy.p2p.service.BorrowService;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.List;
 
 @Service
 public class BorrowServiceImpl extends BaseService implements BorrowService {
@@ -63,6 +65,38 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
         repaymentDO.setMoney(money);
         repaymentDAO.insert(repaymentDO);
         return borrowDAO.update(update) > 0;
+    }
+
+    @Override
+    public UserBorrowTotalDTO getUserTotalInfo(Integer userId) throws ParseException {
+        BigDecimal totalRepayment = BigDecimal.ZERO;
+        BigDecimal totalBorrowMoney = BigDecimal.ZERO;
+        BigDecimal totalMoney = BigDecimal.ZERO;
+        Integer successTotal = 0;
+        Integer failTotal = 0;
+        BorrowExample example = new BorrowExample();
+        example.setUserId(userId);
+        List<BorrowDO> borrowDOS = borrowDAO.listByExample(example);
+        for (BorrowDO borrowDO: borrowDOS){
+            totalMoney = totalMoney.add(borrowDO.getMoney());
+            totalRepayment = totalRepayment.add(borrowDO.getRepayment());
+            if (borrowDO.getState() == 1){
+                successTotal++;
+            }else {
+                if(DateUtil.timeAfter(DateUtil.getNowDay(), borrowDO.getEndDate())){
+                    failTotal++;
+                }
+                totalBorrowMoney = totalBorrowMoney.add(getTotalMoney(borrowDO).subtract(borrowDO.getRepayment()));
+            }
+        }
+        UserBorrowTotalDTO result = new UserBorrowTotalDTO();
+        result.setTotalCount(borrowDOS.size());
+        result.setFailTotal(failTotal);
+        result.setSuccessTotal(successTotal);
+        result.setTotalBorrowMoney(totalBorrowMoney);
+        result.setTotalMoney(totalMoney);
+        result.setTotalRepayment(totalRepayment);
+        return result;
     }
 
     private BigDecimal getTotalMoney(BorrowDO borrowDO) throws ParseException {

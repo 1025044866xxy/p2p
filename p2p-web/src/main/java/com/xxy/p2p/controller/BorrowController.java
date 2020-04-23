@@ -2,6 +2,7 @@ package com.xxy.p2p.controller;
 
 import com.xxy.p2p.base.SuccessResponse;
 import com.xxy.p2p.code.ErrorCodeEnum;
+import com.xxy.p2p.entity.dto.UserBorrowTotalDTO;
 import com.xxy.p2p.entity.request.BorrowRequest;
 import com.xxy.p2p.service.BorrowService;
 import org.springframework.util.Assert;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/borrow")
@@ -37,7 +39,10 @@ public class BorrowController extends BaseController {
         return getSuccessResponse(borrowService.repayment(borrowRequest));
     }
 
-//    @GetMapping("/total-info")
-//    public SuccessResponse<>
+    @GetMapping("/total-info")
+    public SuccessResponse<UserBorrowTotalDTO> totalInfo(HttpServletRequest request) throws ParseException {
+        Integer userId = getUserInfo(request).getId();
+        return getSuccessResponse(borrowService.getUserTotalInfo(userId));
+    }
 
 }

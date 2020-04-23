@@ -15,5 +15,7 @@ public class UserBorrowTotalDTO {
 
     private BigDecimal totalBorrowMoney;
 
+    private Integer successTotal;
 
+    private Integer failTotal;
 }
