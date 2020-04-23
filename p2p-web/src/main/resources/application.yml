@@ -14,7 +14,7 @@ spring:
       favicon:
         enable: false;
 server:
-  port: 8088
+  port: 8081
   tomcat:
     max-threads: 400
     uri-encoding: UTF-8
