@@ -57,12 +57,11 @@ df-img-resources/upload/
 .classpath
 target/
 bin/
-deepfashion-console/dependency-reduced-pom.xml
-df-local-debug/localServer
+
+p2p-logs/
 
 ruhnn/
-log_sso/
-ske-logs
+
 
 ### Example user template template
 ### Example user template
