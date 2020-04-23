@@ -6,7 +6,8 @@
 <mapper namespace="com.xxy.p2p.dao.mapper.BorrowDAO">
 
     <sql id="Base_column_List">
-        id, user_id, start_date, money, interest, interest_money, total_money, repayment, end_date, state
+        id, user_id, start_date, money, interest, interest_money, repayment, end_date, state,
+        overdue_interest, overdue_interest_money, overdue_money
     </sql>
 
     <sql id="CURRENT_TABLE_NAME">
@@ -25,9 +26,11 @@
 
     <insert id="insert">
         insert into
-            user_borrow (user_id, start_date, money, interest, interest_money, total_money, end_date)
+            user_borrow (user_id, start_date, money, interest, interest_money, end_date,
+            overdue_interest, overdue_interest_money, overdue_money)
         values
-            (#{userId}, #{startDate}, #{money}, #{interest}, #{interestMoney}, #{totalMoney}, #{endDate})
+            (#{userId}, #{startDate}, #{money}, #{interest}, #{interestMoney}, #{endDate},
+            #{overdueInterest}, #{overdueInterestMoney}, #{overdueMoney})
     </insert>
 
     <update id="update">

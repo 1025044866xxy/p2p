@@ -37,4 +37,7 @@ public class BorrowController extends BaseController {
         return getSuccessResponse(borrowService.repayment(borrowRequest));
     }
 
+//    @GetMapping("/total-info")
+//    public SuccessResponse<>
+
 }

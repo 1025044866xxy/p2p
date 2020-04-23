@@ -34,22 +34,25 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
         long dayCount = DateUtil.daysBetweenCount(borrowRequest.getStartDate(), borrowRequest.getEndDate());
         BigDecimal money = borrowDO.getMoney();
         BigDecimal interestMoney = money.multiply(BigDecimal.valueOf(dayCount)).multiply(borrowDO.getInterest());
-        BigDecimal totalMoney = money.add(interestMoney);
         borrowDO.setInterestMoney(interestMoney);
-        borrowDO.setTotalMoney(totalMoney);
+        borrowDO.setOverdueInterest(new BigDecimal("1.5").multiply(borrowDO.getInterest()));
+        borrowDO.setOverdueInterestMoney(money.multiply(borrowDO.getOverdueInterest()));
+        borrowDO.setOverdueMoney(money.multiply(new BigDecimal("0.1")));
         return borrowDAO.insert(borrowDO) > 0;
     }
 
     @Transactional
     @Override
-    public Boolean repayment(BorrowRequest borrowRequest) {
+    public Boolean repayment(BorrowRequest borrowRequest) throws Exception{
         BorrowDO update = new BorrowDO();
         BeanUtils.copyProperties(borrowRequest, update);
         BigDecimal money = update.getMoney();
         BorrowExample example = new BorrowExample();
         example.setId(borrowRequest.getId());
         BorrowDO borrowDO = borrowDAO.getByExample(example);
-        if(money.compareTo(borrowDO.getTotalMoney().subtract(borrowDO.getRepayment()))>=0){
+        money = money.add(borrowDO.getRepayment());
+        BigDecimal totalMoney = getTotalMoney(borrowDO);
+        if(money.compareTo(totalMoney) >= 0){
             update.setState(1);
             update.setFinishDate(DateUtil.getNowDay());
         }
@@ -60,5 +63,22 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
         repaymentDO.setMoney(money);
         repaymentDAO.insert(repaymentDO);
         return borrowDAO.update(update) > 0;
+    }
+
+    private BigDecimal getTotalMoney(BorrowDO borrowDO) throws ParseException {
+        BigDecimal totalMoney = null;
+        String today = DateUtil.getNowDay();
+        if(DateUtil.timeAfter(today, borrowDO.getEndDate())){
+            totalMoney = borrowDO.getMoney().add(borrowDO.getInterestMoney().multiply(
+                    BigDecimal.valueOf(DateUtil.daysBetweenCount(borrowDO.getStartDate(), borrowDO.getEndDate()))));
+            totalMoney = totalMoney.add(borrowDO.getOverdueMoney());
+            totalMoney = totalMoney.add(borrowDO.getOverdueInterestMoney().multiply(BigDecimal.valueOf(
+                    DateUtil.daysBetweenCount(borrowDO.getEndDate(), today))));
+
+        }else{
+            totalMoney = borrowDO.getMoney().add(borrowDO.getInterestMoney().multiply(
+                    BigDecimal.valueOf(DateUtil.daysBetweenCount(borrowDO.getStartDate(), today))));
+        }
+        return totalMoney;
     }
 }

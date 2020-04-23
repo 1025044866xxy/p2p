@@ -65,7 +65,7 @@
 
     <appender name="exception" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logRoot}/xxy_exception.%d{yyyy-MM-dd}.log
+            <FileNamePattern>${logRoot}/p2p_exception.%d{yyyy-MM-dd}.log
             </FileNamePattern>
             <MaxHistory>30</MaxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>

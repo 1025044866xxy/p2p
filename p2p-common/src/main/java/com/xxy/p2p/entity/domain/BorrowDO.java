@@ -18,13 +18,17 @@ public class BorrowDO extends BaseDO {
 
     private BigDecimal money;
 
-    private BigDecimal totalMoney;
-
     private BigDecimal repayment;
 
     private BigDecimal interest;
 
     private BigDecimal interestMoney;
+
+    private BigDecimal overdueMoney;
+
+    private BigDecimal overdueInterest;
+
+    private BigDecimal overdueInterestMoney;
 
     private String endDate;
 

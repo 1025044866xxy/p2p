@@ -19,7 +19,9 @@ public class MyBatisConfiguration {
     @Autowired
     ExecteSqlLogInterceptor execteSqlLogInterceptor;
 
+    @Bean("dataSource")
     @Primary
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }

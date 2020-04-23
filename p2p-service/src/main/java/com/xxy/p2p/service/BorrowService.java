@@ -7,5 +7,5 @@ import java.text.ParseException;
 public interface BorrowService {
     Boolean borrowMoney(BorrowRequest borrowRequest) throws Exception;
 
-    Boolean repayment(BorrowRequest borrowRequest);
+    Boolean repayment(BorrowRequest borrowRequest) throws Exception;
 }
