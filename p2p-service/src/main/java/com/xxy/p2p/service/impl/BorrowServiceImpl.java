@@ -33,7 +33,7 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
         BeanUtils.copyProperties(borrowRequest, borrowDO);
         long dayCount = DateUtil.daysBetweenCount(borrowRequest.getStartDate(), borrowRequest.getEndDate());
         BigDecimal money = borrowDO.getMoney();
-        BigDecimal interestMoney = money.multiply(BigDecimal.valueOf(dayCount)).multiply(borrowDO.getInterest());
+        BigDecimal interestMoney = money.multiply(borrowDO.getInterest());
         borrowDO.setInterestMoney(interestMoney);
         borrowDO.setOverdueInterest(new BigDecimal("1.5").multiply(borrowDO.getInterest()));
         borrowDO.setOverdueInterestMoney(money.multiply(borrowDO.getOverdueInterest()));
@@ -56,7 +56,7 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
             update.setState(1);
             update.setFinishDate(DateUtil.getNowDay());
         }
-        update.setRepayment(borrowDO.getRepayment().add(money));
+        update.setRepayment(money);
         update.setId(borrowDO.getId());
         RepaymentDO repaymentDO = new RepaymentDO();
         repaymentDO.setUserId(borrowDO.getUserId());
