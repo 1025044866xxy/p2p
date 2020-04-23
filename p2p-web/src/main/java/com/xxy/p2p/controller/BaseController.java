@@ -98,5 +98,11 @@ public abstract class BaseController {
         return null;
     }
 
+    protected Integer getUserId(HttpServletRequest request){
+        String token = request.getHeader("token");
+        Integer userId =  tokenHelperService.get(token);
+        return userId;
+    }
+
 
 }

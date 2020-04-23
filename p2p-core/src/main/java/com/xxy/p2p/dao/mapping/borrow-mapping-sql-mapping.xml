@@ -7,7 +7,7 @@
 
     <sql id="Base_column_List">
         id, user_id, start_date, money, interest, interest_money, repayment, end_date, state,
-        overdue_interest, overdue_interest_money, overdue_money
+        overdue_interest, overdue_interest_money, overdue_money, finish_date
     </sql>
 
     <sql id="CURRENT_TABLE_NAME">
@@ -21,6 +21,39 @@
         </if>
         <if test="example.id != null">
             and id = #{example.id}
+        </if>
+        <if test="example.state != null">
+            <choose>
+                <when test="example.state == 2">
+                    and #{example.finishDate} > end_date
+                </when>
+                <otherwise>
+                    and state = #{example.state}
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
+    <sql id="RANK_STATUS">
+        <choose>
+            <when test="example.rankStatus == 1">
+                money desc
+            </when>
+            <when test="example.rankStatus == 2">
+                repayment desc
+            </when>
+            <when test="example.rankStatus == 3">
+                updated_at desc
+            </when>
+            <otherwise>
+                created_at desc
+            </otherwise>
+        </choose>
+    </sql>
+
+    <sql id="PageSet">
+        <if test="pageSet != null">
+            limit #{pageSet.start},#{pageSet.pageSize}
         </if>
     </sql>
 
@@ -63,6 +96,19 @@
     <select id="listByExample" resultType="com.xxy.p2p.entity.domain.BorrowDO">
         select
             <include refid="Base_column_List"/>
+        from
+            <include refid="CURRENT_TABLE_NAME"/>
+        <where>
+            <include refid="Where_Example_Many"/>
+        </where>
+        order by
+            <include refid="RANK_STATUS"/>
+        <include refid="PageSet"/>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select
+            count(1)
         from
             <include refid="CURRENT_TABLE_NAME"/>
         <where>

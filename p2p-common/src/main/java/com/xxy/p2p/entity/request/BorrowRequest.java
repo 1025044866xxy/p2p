@@ -20,4 +20,8 @@ public class BorrowRequest {
 
     private Integer userId;
 
+    private Integer rankStatus;
+
+    private Integer state;
+
 }

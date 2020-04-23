@@ -1,12 +1,15 @@
 package com.xxy.p2p.service.impl;
 
 import com.xxy.p2p.BaseService;
+import com.xxy.p2p.base.PageSet;
 import com.xxy.p2p.dao.mapper.BorrowDAO;
 import com.xxy.p2p.dao.mapper.RepaymentDAO;
 import com.xxy.p2p.entity.domain.BorrowDO;
 import com.xxy.p2p.entity.domain.RepaymentDO;
+import com.xxy.p2p.entity.dto.UserBorrowDTO;
 import com.xxy.p2p.entity.dto.UserBorrowTotalDTO;
 import com.xxy.p2p.entity.example.BorrowExample;
+import com.xxy.p2p.entity.example.RepaymentExample;
 import com.xxy.p2p.entity.request.BorrowRequest;
 import com.xxy.p2p.service.BorrowService;
 import com.xxy.p2p.util.DateUtil;
@@ -18,6 +21,8 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class BorrowServiceImpl extends BaseService implements BorrowService {
@@ -33,7 +38,6 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
     public Boolean borrowMoney(BorrowRequest borrowRequest) throws ParseException {
         BorrowDO borrowDO = new BorrowDO();
         BeanUtils.copyProperties(borrowRequest, borrowDO);
-        long dayCount = DateUtil.daysBetweenCount(borrowRequest.getStartDate(), borrowRequest.getEndDate());
         BigDecimal money = borrowDO.getMoney();
         BigDecimal interestMoney = money.multiply(borrowDO.getInterest());
         borrowDO.setInterestMoney(interestMoney);
@@ -62,7 +66,8 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
         update.setId(borrowDO.getId());
         RepaymentDO repaymentDO = new RepaymentDO();
         repaymentDO.setUserId(borrowDO.getUserId());
-        repaymentDO.setMoney(money);
+        repaymentDO.setMoney(borrowRequest.getMoney());
+        repaymentDO.setBorrowId(borrowRequest.getId());
         repaymentDAO.insert(repaymentDO);
         return borrowDAO.update(update) > 0;
     }
@@ -76,7 +81,7 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
         Integer failTotal = 0;
         BorrowExample example = new BorrowExample();
         example.setUserId(userId);
-        List<BorrowDO> borrowDOS = borrowDAO.listByExample(example);
+        List<BorrowDO> borrowDOS = borrowDAO.listByExample(example, null);
         for (BorrowDO borrowDO: borrowDOS){
             totalMoney = totalMoney.add(borrowDO.getMoney());
             totalRepayment = totalRepayment.add(borrowDO.getRepayment());
@@ -99,8 +104,49 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
         return result;
     }
 
+    @Override
+    public Object getBorrowMoneyList(BorrowRequest borrowRequest, PageSet pageSet) {
+        BorrowExample example = new BorrowExample();
+        BeanUtils.copyProperties(borrowRequest, example);
+        if(Objects.equals(2,example.getState())){
+            example.setFinishDate(DateUtil.getNowDay());
+        }
+        Integer count = borrowDAO.count(example);
+        if(count == 0){
+            return getEmptyPageSet(pageSet);
+        }
+        List<UserBorrowDTO> resultList = borrowDAO.listByExample(example, pageSet).stream().map(borrowDO -> {
+            UserBorrowDTO userBorrowDTO = new UserBorrowDTO();
+            BeanUtils.copyProperties(borrowDO, userBorrowDTO);
+            try {
+                userBorrowDTO.setTotalMoney(getTotalMoney(borrowDO));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return userBorrowDTO;
+        }).collect(Collectors.toList());
+        pageSet.setResultCount(count);
+        pageSet.setResultList(resultList);
+        return pageSet;
+    }
+
+    @Override
+    public Object getRepaymentList(Integer userId, Integer borrowId, PageSet pageSet) {
+        RepaymentExample example = new RepaymentExample();
+        example.setUserId(userId);
+        example.setBorrowId(borrowId);
+        Integer count = repaymentDAO.count(example);
+        if(count == 0){
+            return getEmptyPageSet(pageSet);
+        }
+        List<RepaymentDO> repaymentDOS = repaymentDAO.listByExample(example, pageSet);
+        pageSet.setResultCount(count);
+        pageSet.setResultList(repaymentDOS);
+        return pageSet;
+    }
+
     private BigDecimal getTotalMoney(BorrowDO borrowDO) throws ParseException {
-        BigDecimal totalMoney = null;
+        BigDecimal totalMoney;
         String today = DateUtil.getNowDay();
         if(DateUtil.timeAfter(today, borrowDO.getEndDate())){
             totalMoney = borrowDO.getMoney().add(borrowDO.getInterestMoney().multiply(

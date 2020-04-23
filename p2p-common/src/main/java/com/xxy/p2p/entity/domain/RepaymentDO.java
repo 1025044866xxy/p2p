@@ -10,6 +10,8 @@ public class RepaymentDO extends BaseDO {
 
     private Integer id;
 
+    private Integer borrowId;
+
     private Integer userId;
 
     private BigDecimal money;
