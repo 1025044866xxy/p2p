@@ -13,6 +13,8 @@ public enum ErrorCodeEnum implements ErrorCodeInter {
 
 
     P01("P01","参数缺失"),
+
+    E01("E01", "发生错误"),
     ;
 
     private String code;
