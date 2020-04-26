@@ -1,90 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
- <head> 
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-
-  <title> 登录 </title> 
-  
-  <link rel="stylesheet" href="style/css/base.css"  /> 
-  <link rel="stylesheet" href="style/css/login.css"  /> 
-  <link rel="stylesheet" href="style/layui/css/layui.css"  >
-  <link rel="stylesheet" href="style/layer/skin/layer.css"  >
-
-  <script  type="text/javascript" src="style/js/jquery-1.7.1.min.js"></script> 
-  <script  type="text/javascript" src="style/js/jquery.cookie.js"></script> 
-  <script  type="text/javascript" src="style/layui/layui.js"></script> 
-  <script  type="text/javascript" src="style/layer/layer.js"></script>
-
-  <!-- 验证码 隐藏滚动条 -->
-  <style>
-  		.imgcode{
-			width: 95px;
-			position: absolute;
-			right: 0;
-			top: 0px;
-			cursor: pointer;
-			height: 46px;
-			font-size: 24px;
-			text-align: center;
-			line-height: 46px; 
-		}
-		::-webkit-scrollbar{
-			display:none;
-		}
-  </style>
-
- </head> 
- <body  onload="changeImg()" onkeydown="keyLogin()"> 
-  <div id="content" class="content"> 
-
-  
-   <div class="banner-box"> 
-
-    <form id="mainForm" class="main-form"  > 
-		 <div class="tab-title"> 
-		  <a class="linkABlue" id="toAccountLogin" href="login.html">账号登录</a> 
-		  <span class="register-line"></span> 
-		  <a class="linkAGray" id="toVCodeLogin" href="register.html">账号注册</a> 
-		 </div> 
-		 <div id="errorMsg" class="tip-box visiblility-hidden"> 
-		  <i class="err-ico"></i> 
-		  <span class="tip-font" id="tipMsg">请填写完整的登录信息</span> 
-		  <span id="closeErrorMsg" class="close-ico"></span> 
-		 </div> 
-		 
-		 <!-- 用户名 -->
-		 <div class="normalInput" id="cycode-box"> 
-		   <input class="ipt-account inp-focus" name="account" id="account" maxlength="50" placeholder="邮箱/用户名" autocomplete="off"  onfocus="closeErrorMsg()" /> 
-		 </div> 
-		 <!-- 密 码 -->
-		 <div class="normalInput "> 
-		  <input type="password" class="inp-focus" name="password" id="password" maxlength="16" autocomplete="off"  placeholder="密码" onfocus="closeErrorMsg()"  />
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<title>首页</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script  type="text/javascript" src="js/jquery.cookie.js"></script>
+<!-- <link rel="stylesheet/less" type="text/css" href="css/style.less" /> -->
+	<!--[if IE 6]>
+<script type="text/javascript">
+   EvPNG.fix('div, ul, img, li, input,span, p');
+</script>
+<![endif]-->
+</head>
+<body>
+<!-- header start -->
+<div class="zxcf_top_wper">
+	<div class="zxcf_top px1000 clearfix">
+		 <div class="zxcf_top_l fl">
+		    <img src="images/zxcf_phone.png" alt="">
+		    400-027-0101(工作时间9:00-17:30)
+		    <a href="#"><img src="images/zxcf_weixin.png" alt=""></a>
+		    <a href="#"><img src="images/zxcf_sina.png" alt=""></a>
+		    <a href="#"><img src="images/zxcf_qq.png" alt=""></a>
 		 </div>
-		<!-- 验证码 -->
-		 <div class="normalInput " id="cycode-box"> 
-		   <input class="ipt-account inp-focus" name="verify" id="verify" maxlength="50" placeholder="验证码" autocomplete="off"  onfocus="closeErrorMsg()" /> 
-		   <span id="code"  class="imgcode" ></span>
-		   <!-- <img src="test.jpg" class="imgcode" id="code"> --> 
+		 <div class="zxcf_top_r fr">
+		 	<a href="login.html" class="curspan">立即登录</a>
+		 	<span>|</span>
+		 	<a href="register.html">免费注册</a>
+		 	<span>|</span>
+		 	<a href="problem.html">常见问题</a>
 		 </div>
+	</div>
+</div>
+<!-- end top -->
+<div class="zxcf_nav_wper">
+	<div class="zxcf_nav clearfix px1000">
+		 <div class="zxcf_nav_l fl"><img src="images/zxcf_logo.png" alt=""></div>
+		 <div class="zxcf_nav_r fr">
+		 		<img src="images/lg_pic01.png" alt=""> 
+		 	<span>
+		    <a href="index.html">返回首页</a></span>
+		 	
+		 </div>
+	</div>
+</div>
+<!-- end  -->
+<div class="login_con_wper">
+	  <div class="login_con px1000 ">
+	  	   <div class="lg_section clearfix">
+	  	   	     <div class="lg_section_l fl">
+	  	   	     	<img src="images/lg_bg02.png"> 
+	  	   	     </div>
+	  	   	     <!-- end l -->
+	  	   	     <div class="lg_section_r fl">
+	  	   	     	   <h2 class="lg_sec_tit clearfix">
+	  	   	     	      <span class="fl">登录</span>
+	  	   	     	      <em class="fr">没有帐号，<a href="register.html">立即注册</a></em>
+	  	   	     	   </h2>
+	  	   	     	   <form>
+	  	   	     	   	    <fieldset>
+	  	   	     	   	    	  <p class="mt20">
+	  	   	     	   	    	  	 <input type="text" placeholder="用户名/手机" class="lg_input01 lg_input" id="account" autocomplete="off">
+	  	   	     	   	    	  </p>
+                                  <p class="mt20">
+	  	   	     	   	    	  	 <input type="password" placeholder="密码" class="lg_input02 lg_input" id="password" autocomplete="off">
+	  	   	     	   	    	  </p>
+								<a href="#" class="fr">忘记密码？找回</a></p>
+                                 <p><a id="login" class="lg_btn">立即登陆</a></p>
+	  	   	     	   	    </fieldset>
+	  	   	     	   </form>
+	  	   	     </div>
+	  	   </div>
+	  </div>
+</div>
+<!-- footer start -->
+<div class="zscf_aboutus_wper">
+	  <div class="zscf_aboutus px1000 clearfix">
+	  	    <div class="zscf_aboutus_l fl">
+	  	    	   <ul class="zscf_aboutus_lul clearfix">
+	  	    	   	  <li class="pt10"><a href="#"><img src="images/app.png" alt=""></a>
+	  	    	   	  </li>
+	  	    	   	  <li>
+	  	    	   	  <p class="pb20">服务热线</p>
+	  	    	   	  <strong>400-027-0101</strong>
+	  	    	   	  </li>
+	  	    	   	  <li>
+	  	    	   	  	  <p class="pb10 linkpic">
+	  	    	   	  	     <a href="#"><img src="images/ft_sina.png" alt=""></a>
+	  	    	   	  	     <a href="#"><img src="images/ft_weixin.png" alt=""></a>
+	  	    	   	  	     <a href="#"><img src="images/ft_erji.png" alt=""></a>
+	  	    	   	  	  </p>
+	  	    	   	  	  <p><a href="#">1025044866@qq.com</a></p>
+	  	    	   	  </li>
+	  	    	   </ul>
+	  	    </div>
+	  	    <!-- end left -->
+	  	    <div class="zscf_aboutus_r fl clearfix">
+	  	    	 <a href="#" class="fl ft_ewm"><img src="images/ft_erweima.png" alt=""></a>
+	  	    	 <ul class="fl clearfix">
+	  	    	 	<li><a href="#">联系我们</a></li>
+	  	    	 	<li><a href="#">我要融资</a></li>
+	  	    	 	<li><a href="problem.html">帮助中心</a></li>
+	  	    	 	<li><a href="#">友情链接</a></li>
+	  	    	 	<li><a href="#">招贤纳士</a></li>
+	  	    	 	<li><a href="#">收益计算器</a></li>
+	  	    	 </ul>
+	  	    </div>
+	  	    <!-- end right -->
 
-		 <a id="loin" class="fullBtnBlue">登录</a>
-		 <div class="transferField"> 
-		  <a class="go2forgetpwd linkABlue rememberFieldForA" href="#">忘记密码?</a> 
-		 </div> 
-	 
-    </form> 
-	
-	
-	
-   </div> 
-  </div> 
+	  </div>
+</div>
 
- 
+<div class="zscf_bottom_wper">
+	<div class="zscf_bottom px1000 clearfix">
+		  <p class="fl">© 2020 xxy &nbsp;  &nbsp;&nbsp;   顶呱呱金融信息服务股份有限公司 &nbsp;&nbsp;</p>
+		  <p class="fr">
+		    <a href="#"><img src="images/360.png" alt=""></a>
+		    <a href="#"><img src="images/kexin.png" alt=""></a>
+		    <a href="#"><img src="images/norton.png" alt=""></a>
+		  </p>
+	</div>
+</div>
 
-
-
-  
- <script type="text/javascript">
+<script type="text/javascript">
 
 
 
@@ -106,7 +145,7 @@
 					  	console.log(data.result);
 						  //如果密码错误，则把cookie中的password清空同时表单内容设置为空,同时清空验证码，刷新验证码
 						  if(data.result==false){
-							  $.cookie("token","")
+							  $.cookie("token","");
 						  }else{ //登录成功跳转页面
 							  window.location.href = 'index.html';
 						  }
@@ -116,68 +155,55 @@
     })
 
 
-    //不加这个复选框样式不会改变
- 	layui.use('form', function(){
-	  var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-	});  
-	
-
 	//回车登录
     function keyLogin(){
 	 	if (event.keyCode==13){ //回车键的键值为13
 	 		//document.getElementById("login").click(); //调用登录按钮的登录事件
 	 		//或者使用jquery实现
 	 		$("#login").click();
-	 	}  
+	 	}
 	}
 
-  	//用于验证码
-	var code;//声明一个变量用于存储生成的验证码  
-	document.getElementById("code").onclick=changeImg;  
-	function changeImg(){  
-	    //alert("换图片");  
-	    var arrays=new Array(  
-	        '1','2','3','4','5','6','7','8','9','0',  
-	        'a','b','c','d','e','f','g','h','i','j',  
-	        'k','l','m','n','o','p','q','r','s','t',  
-	        'u','v','w','x','y','z',  
-	        'A','B','C','D','E','F','G','H','I','J',  
-	        'K','L','M','N','O','P','Q','R','S','T',  
-	        'U','V','W','X','Y','Z'               
-	    );  
-	    code='';//重新初始化验证码  
-	    //alert(arrays.length);  
-	    //随机从数组中获取四个元素组成验证码  
-	    for(var i=0;i<4;i++){  
-	    //随机获取一个数组的下标  
-	        var r=parseInt(Math.random()*arrays.length);  
-	        code+=arrays[r];  
-	        //alert(arrays[r]);  
-	    }  
-	    //alert(code);  
-	    document.getElementById('code').innerHTML=code;//将验证码写入指定区域  
-	} 
+<!--  	//用于验证码-->
+<!--	var code;//声明一个变量用于存储生成的验证码-->
+<!--	document.getElementById("code").onclick=changeImg;-->
+<!--	function changeImg(){-->
+<!--	    //alert("换图片");-->
+<!--	    var arrays=new Array(-->
+<!--	        '1','2','3','4','5','6','7','8','9','0',-->
+<!--	        'a','b','c','d','e','f','g','h','i','j',-->
+<!--	        'k','l','m','n','o','p','q','r','s','t',-->
+<!--	        'u','v','w','x','y','z',-->
+<!--	        'A','B','C','D','E','F','G','H','I','J',-->
+<!--	        'K','L','M','N','O','P','Q','R','S','T',-->
+<!--	        'U','V','W','X','Y','Z'-->
+<!--	    );-->
+<!--	    code='';//重新初始化验证码-->
+<!--	    //alert(arrays.length);-->
+<!--	    //随机从数组中获取四个元素组成验证码-->
+<!--	    for(var i=0;i<4;i++){-->
+<!--	    //随机获取一个数组的下标-->
+<!--	        var r=parseInt(Math.random()*arrays.length);-->
+<!--	        code+=arrays[r];-->
+<!--	        //alert(arrays[r]);-->
+<!--	    }-->
+<!--	    //alert(code);-->
+<!--	    document.getElementById('code').innerHTML=code;//将验证码写入指定区域-->
+<!--	}-->
 
   	//点击登录事件
-  	$("#loin").click(function(){
+  	$("#login").click(function(){
     		var account = $("#account").val();
 			var password = $("#password").val();
-			var verify = $("#verify").val();
-			if( account=="" || password=="" || verify==""){
-				var obj = document.getElementById("errorMsg");
-				$("#tipMsg").html("请填写完整的登录信息！");
-				obj.setAttribute("class", "tip-box visiblility-show");
+			if( account=="" || password==""){
+				alert('请填写完整的登录信息');
 				return ;
 			}
-			//验证码不对
-			if( code!=verify){
-				//提示错误信息
-				var obj = document.getElementById("errorMsg");
-				//修改提示文字
-				$("#tipMsg").html("请填写正确的验证码！");
-				obj.setAttribute("class", "tip-box visiblility-show");
-				return ;
-			}
+<!--			//验证码不对-->
+<!--			if( code!=verify){-->
+<!--				alert('请输入正确的验证码!');-->
+<!--				return ;-->
+<!--			}-->
 			//发送ajax请求
 			$.ajax({
 				  type: 'POST',
@@ -186,14 +212,11 @@
 				  dataType: "json",
 				  async:false,
 				  success: function(data){
-				  alert("11111");
 				  console.log(data);
 					  //如果密码错误，则把cookie中的password清空同时表单内容设置为空,同时清空验证码，刷新验证码
 					  if(data.result == null){
-						  changeImg();
 						  alert(data.errorDesc);
 					  }else{ //登录成功跳转页
-					  alert(data.result);
 						  $.cookie('token', data.result, { expires: 30 });
 						  console.log($.cookie('token'));
 						  window.location.href = 'index.html';
@@ -202,30 +225,17 @@
 			});
 
 
-	});  
-
-  	//点击错误信息关闭按钮
-  	$("#closeErrorMsg").click(function(){
-			var obj = document.getElementById("errorMsg");
-			obj.setAttribute("class", "tip-box visiblility-hidden");
-  	});
-
-  	//关闭错误提示
-  	function closeErrorMsg(){
-  			var obj = document.getElementById("errorMsg");
-			obj.setAttribute("class", "tip-box visiblility-hidden");
-  	};
-
-  	//验证码提示
-	$('.imgcode').hover(function(){
-		layer.tips("点击更换验证码", '#code', {
-        		time: 2000,
-        		tips: [2, "#3c3c3c"]
-    		});
 	});
 
-</script>
-  
+<!--  	//验证码提示-->
+<!--	$('.imgcode').hover(function(){-->
+<!--		layer.tips("点击更换验证码", '#code', {-->
+<!--        		time: 2000,-->
+<!--        		tips: [2, "#3c3c3c"]-->
+<!--    		});-->
+<!--	});-->
 
+</script>
+<!-- footer end -->
 </body>
 </html>

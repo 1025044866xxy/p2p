@@ -28,9 +28,9 @@
 
     <insert id="insert">
         insert into
-            user_info (account_number, password)
+            user_info (account_number, password, user_name, age, gender, phone, mail)
         values
-            (#{accountNumber}, #{password})
+            (#{accountNumber}, #{password}, #{userName}, #{age}, #{gender}, #{phone}, #{mail})
     </insert>
 
     <update id="update">

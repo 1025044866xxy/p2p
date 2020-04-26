@@ -49,17 +49,14 @@ public class LoginController extends BaseController {
 
     @NoneLogin
     @PostMapping("/register")
-    public SuccessResponse<Boolean> register(@NotBlank String accountNumber, @NotBlank String password) {
-        UserInfoDO userInfoDO = userService.getByAccountNumber(accountNumber);
-        Assert.isTrue(userInfoDO == null, ErrorCodeEnum.X03.getCode());
-        password = MD5Util.MD5(password);
-        userInfoDO = new UserInfoDO();
-        userInfoDO.setAccountNumber(accountNumber);
-        userInfoDO.setPassword(password);
+    public SuccessResponse<Boolean> register(UserInfoDO userInfoDO) {
+        UserInfoDO getDO = userService.getByAccountNumber(userInfoDO.getAccountNumber());
+        Assert.isTrue(getDO == null, ErrorCodeEnum.X03.getCode());
+        userInfoDO.setPassword(MD5Util.MD5(userInfoDO.getPassword()));
         return getSuccessResponse(userService.insert(userInfoDO));
     }
 
-    @GetMapping("/cancel")
+    @PostMapping("/cancel")
     public SuccessResponse<Boolean> cancel(HttpServletRequest request) {
         String token = request.getHeader("token");
         UserInfoDO userInfoDO = getUserInfo(request);
