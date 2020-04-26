@@ -3,13 +3,35 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 	<title>首页</title>
-	
+	<script  type="text/javascript" src="style/js/jquery-1.7.1.min.js"></script>
+	<script  type="text/javascript" src="style/js/jquery.cookie.js"></script>
 </head>
 <body>
 
-<script>
-
+<script type="text/javascript">
+$(document).ready(function(){
+ 	var token = $.cookie('token');
+	$.ajax({
+				  type: 'GET',
+				  url: '/user/info',
+				  data : '',
+				  dataType: "json",
+				  async:false,
+				  beforeSend: function (XMLHttpRequest) {
+         				XMLHttpRequest.setRequestHeader("token", token);
+         				},
+				  success: function(data){
+				  console.log(data.result);
+					  //如果密码错误，则把cookie中的password清空同时表单内容设置为空,同时清空验证码，刷新验证码
+					  if(data.result == null){
+						  alert(data.errorDesc);
+					  }else{ //登录成功跳转页
+					  }
+				  },
+			});
+		})
 </script>
-
 </body>
+
+
 </html>

@@ -59,7 +59,6 @@
 		 <!-- 密 码 -->
 		 <div class="normalInput "> 
 		  <input type="password" class="inp-focus" name="password" id="password" maxlength="16" autocomplete="off"  placeholder="密码" onfocus="closeErrorMsg()"  />
-			 <input type="hidden" class="inp-focus" name="token" id="token"/>
 		 </div>
 		<!-- 验证码 -->
 		 <div class="normalInput " id="cycode-box"> 
@@ -99,11 +98,14 @@
 					  type: 'POST',
 					  url: '/token/login-by-token',
 					  async:false,
-					  data: 'token='+token,
 					  dataType: "json",
+					  beforeSend: function (XMLHttpRequest) {
+         				XMLHttpRequest.setRequestHeader("token", token);
+         				},
 					  success: function(data){
+					  	console.log(data.result);
 						  //如果密码错误，则把cookie中的password清空同时表单内容设置为空,同时清空验证码，刷新验证码
-						  if(data.result=="false"){
+						  if(data.result==false){
 							  $.cookie("token","")
 						  }else{ //登录成功跳转页面
 							  window.location.href = 'index.html';
@@ -194,7 +196,7 @@
 					  alert(data.result);
 						  $.cookie('token', data.result, { expires: 30 });
 						  console.log($.cookie('token'));
-<!--						  window.location.href = 'index.html';-->
+						  window.location.href = 'index.html';
 					  }
 				  },
 			});

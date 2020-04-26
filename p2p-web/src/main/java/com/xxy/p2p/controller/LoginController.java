@@ -8,7 +8,6 @@ import com.xxy.p2p.entity.domain.UserInfoDO;
 import com.xxy.p2p.service.TokenHelperService;
 import com.xxy.p2p.service.UserService;
 import com.xxy.p2p.util.MD5Util;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,12 +43,12 @@ public class LoginController extends BaseController {
 
     @NoneLogin
     @PostMapping("/login-by-token")
-    public SuccessResponse<Boolean> login(@NotBlank String token) {
-        return getSuccessResponse(tokenHelperService.check(token));
+    public SuccessResponse<Boolean> login(HttpServletRequest request) {
+        return getSuccessResponse(tokenHelperService.check(request.getHeader("token")));
     }
 
     @NoneLogin
-    @GetMapping("/register")
+    @PostMapping("/register")
     public SuccessResponse<Boolean> register(@NotBlank String accountNumber, @NotBlank String password) {
         UserInfoDO userInfoDO = userService.getByAccountNumber(accountNumber);
         Assert.isTrue(userInfoDO == null, ErrorCodeEnum.X03.getCode());
