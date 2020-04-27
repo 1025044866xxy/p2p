@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -33,11 +35,23 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
     @Resource
     RepaymentDAO repaymentDAO;
 
+    static Map<Integer, Integer> dateMap = new HashMap<>();
+
+    static {
+        dateMap.put(1,7);
+        dateMap.put(2,30);
+        dateMap.put(3,90);
+        dateMap.put(4,180);
+        dateMap.put(5,365);
+    }
+
     @Transactional
     @Override
     public Boolean borrowMoney(BorrowRequest borrowRequest) throws ParseException {
         BorrowDO borrowDO = new BorrowDO();
         BeanUtils.copyProperties(borrowRequest, borrowDO);
+        borrowDO.setStartDate(DateUtil.getNowDay());
+        borrowDO.setEndDate(DateUtil.addDeltaDays(borrowDO.getStartDate(), dateMap.get(borrowRequest.getType())));
         BigDecimal money = borrowDO.getMoney();
         BigDecimal interestMoney = money.multiply(borrowDO.getInterest());
         borrowDO.setInterestMoney(interestMoney);

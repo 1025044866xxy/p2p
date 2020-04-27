@@ -10,9 +10,7 @@ public class BorrowRequest {
 
     private Integer id;
 
-    private String startDate;
-
-    private String endDate;
+    private Integer type;
 
     private BigDecimal money;
 

@@ -23,10 +23,9 @@ public class BorrowController extends BaseController {
 
 
     @PostMapping("/borrow-money")
-    public SuccessResponse<Boolean> borrowMoney(@RequestBody BorrowRequest borrowRequest,
+    public SuccessResponse<Boolean> borrowMoney( BorrowRequest borrowRequest,
                                                 HttpServletRequest request) throws Exception {
-        Assert.isTrue(borrowRequest.getStartDate() != null &&
-                borrowRequest.getEndDate() != null && borrowRequest.getInterest() != null
+        Assert.isTrue(borrowRequest.getType() != null && borrowRequest.getInterest() != null
                 , ErrorCodeEnum.P01.getCode());
         Integer userId = getUserId(request);
         borrowRequest.setUserId(userId);
@@ -34,7 +33,7 @@ public class BorrowController extends BaseController {
     }
 
     @PostMapping("/repayment")
-    public SuccessResponse<Boolean> repayment(@RequestBody BorrowRequest borrowRequest,
+    public SuccessResponse<Boolean> repayment( BorrowRequest borrowRequest,
                                               HttpServletRequest request) throws Exception{
         Integer userId = getUserId(request);
         borrowRequest.setUserId(userId);
