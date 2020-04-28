@@ -53,7 +53,7 @@
 	<div class="zxcf_menu px1000">
 		  <a href="index.html" class="zm_cura">首页</a>
 		  <a href="borrow.html">我要借款</a>
-		  <a href="#">实时财务</a>
+		  <a href="borrow-detail.html">实时财务</a>
 		  <a href="noticelist.html">新手指引</a>
 		  <a href="#" style="margin-right:0;">关于我们</a>
 	</div>
@@ -193,7 +193,7 @@ $(document).ready(function(){
 	//点击登录事件
   	$("#borrow").click(function(){
   			var money = $("#money").val();
-  			if(((/^(\+|-)?\d+$/.test( money ))==false) || (money >4999)){
+  			if(((/^(\+|-)?\d+$/.test( money ))==false) ||(money <2000)|| (money >4999) ){
   			alert('请输入正确贷款金额');
   			return ;
   			}
@@ -213,7 +213,7 @@ $(document).ready(function(){
 					  if(data.result == null){
 						  alert(data.errorDesc);
 					  }else{ //登录成功跳转页
-						  window.location.href = '/index.html';
+						  window.location.href = 'borrow-detail.html';
 					  }
 				  },
 			});

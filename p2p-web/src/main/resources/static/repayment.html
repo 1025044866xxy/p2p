@@ -6,9 +6,9 @@
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 	<script  type="text/javascript" src="js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="js/all.js"></script>
-<link rel="stylesheet" type="text/css" href="css/style1.css">
+	<link rel="stylesheet" type="text/css" href="css/style1.css">
 <!-- <link rel="stylesheet/less" type="text/css" href="css/style.less" /> -->
-<!--[if IE 6]> 
+<!--[if IE 6]>
 <script src="js/iepng.js" type="text/javascript"></script>
 <script type="text/javascript">
    EvPNG.fix('div, ul, img, li, input,span, p');
@@ -65,41 +65,31 @@
 			<div class="detail_intro_l fl">
 				<div class="detail_introl_tit clearfix">
 					<div class="det_introl_tit_l fl">
-						<span>借款</span> 30天还款系列
 					</div>
 					<!-- end l -->
 				</div>
 				<!-- end tit -->
-				<div class="det_intro_text mr20">
-					<ul class="det_intro_tul2 clearfix">
+				<div class="det_intro_text mr20" id="borrow-detail">
+					<ul class="det_intro_tul2 clearfix" >
 						<li>
 							日利率<br>
 							<span style="color:#ff7112;">
-	  	     	    	  	    		 	 0.08%
+	  	     	    	  	    		 	 0.085%
 	  	     	    	  	    		 </span>
 						</li>
 						<li>
 							还款期限<br>
 							<span>
-	  	     	    	  	    		 	 30天
+	  	     	    	  	    		 	 7天
 	  	     	    	  	    		 </span>
 						</li>
 						<li>
 							借款金额区间<br>
 							<span >
-	  	     	    	  	    		 	 5000-9999元
+	  	     	    	  	    		 	 2000-4999元
 	  	     	    	  	    		 </span>
 						</li>
 
-					</ul>
-					<!-- end  -->
-					<ul class="det_intro_tul2 clearfix">
-						<li>
-							逾期利率:利率150%
-						</li>
-						<li>
-							逾期违约金:本金10%
-						</li>
 					</ul>
 				</div>
 				<!-- end text -->
@@ -109,7 +99,7 @@
 				<p class="det_input">
 					<input type="text" placeholder="2000" id="money">
 				</p>
-				<p><a id="borrow" class=" pro_btn det_btn">立即借款</a></p>
+				<p><a id="repayment" class=" pro_btn det_btn">立即还款</a></p>
 			</div>
 		</div>
 		<!-- 用户评结束 -->
@@ -164,10 +154,13 @@
 		  </p>
 	</div>
 </div>
-
+<!-- footer end -->
 <script type="text/javascript">
+var id= window.location.href.split("?")[1].split("=")[1];
 $(document).ready(function(){
  	var token = $.cookie('token');
+ 	console.log($.cookie('token'));
+ 	console.log('111');
  	if(token != null && token != ""){
 		$.ajax({
 					  type: 'GET',
@@ -187,22 +180,51 @@ $(document).ready(function(){
 					  },
 				});
 		}
+
+    $.ajax({
+					  type: 'GET',
+					  url: '/borrow/borrow-money/list',
+					  data : 'id='+id,
+					  dataType: "json",
+					  async:false,
+					  beforeSend: function (XMLHttpRequest) {
+							XMLHttpRequest.setRequestHeader("token", token);
+							},
+					  success: function(data){
+					  console.log(data.result);
+					  if(data.result != null){
+					  var div = document.getElementById('borrow-detail');
+						  $("#borrow-detail").empty();
+						  console.log(data.result.resultList[0].totalMoney-data.result.resultList[0].repayment);
+						  var x = data.result.resultList[0].totalMoney-data.result.resultList[0].repayment;
+						  var code = '<ul class="det_intro_tul2 clearfix">';
+						  code+='<li>借款'+data.result.resultList[0].money+'元<br></li>';
+						  code+='<li>已归还'+data.result.resultList[0].repayment+'元<br></li>';
+						  code+='<li>还需归还'+x+'元<br></li>';
+						  code+='</ul>'
+						  div.innerHTML = code;
+					  }else{
+						alert(data.errorDesc);
+						window.location.href = 'login.html';
+						}
+					  },
+				});
 	})
 	//点击登录事件
-  	$("#borrow").click(function(){
+  	$("#repayment").click(function(){
   			var money = $("#money").val();
-  			if(((/^(\+|-)?\d+$/.test( money ))==false) || (money >9999) || (money<5000)){
-  			alert('请输入正确贷款金额');
+  			if(money<=0){
+  			alert('请输入正确还款金额');
   			return ;
   			}
     		var token = $.cookie('token');
 			//发送ajax请求
 			$.ajax({
 				  type: 'POST',
-				  url: '/borrow/borrow-money',
+				  url: '/borrow/repayment',
 				  dataType: "json",
 				  async:false,
-				  data: 'type=2&interest=0.0008'+'&money='+money,
+				  data: 'id='+id+'&money='+money,
 				  beforeSend: function (XMLHttpRequest) {
 							XMLHttpRequest.setRequestHeader("token", token);
 							},
@@ -211,13 +233,14 @@ $(document).ready(function(){
 					  if(data.result == null){
 						  alert(data.errorDesc);
 					  }else{ //登录成功跳转页
-						  window.location.href = 'borrow-detail.html';
+						  window.location.href = '/borrow-detail.html';
 					  }
 				  },
 			});
 
 
 	});
+
 
 
 	//点击登录事件
@@ -238,7 +261,7 @@ $(document).ready(function(){
 					  if(data.result == null){
 						  alert(data.errorDesc);
 					  }else{ //登录成功跳转页
-						$.cookie('token', "");
+						   $.cookie('token', "");
 
 						  window.location.href = '/index.html';
 					  }
@@ -249,6 +272,6 @@ $(document).ready(function(){
 	});
 
 </script>
-<!-- footer end -->
+
 </body>
 </html>
