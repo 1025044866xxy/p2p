@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -30,21 +35,57 @@ public class LoginController extends BaseController {
     @Autowired
     TokenHelperService tokenHelperService;
 
-    @NoneLogin
+    @NoneLogin(userId = 0, userName = "")
     @PostMapping("/login")
-    public SuccessResponse<String> login(@NotBlank String accountNumber, @NotBlank String password) {
+    public SuccessResponse<String> login(@NotBlank String accountNumber, @NotBlank String password) throws Exception {
         UserInfoDO userInfoDO = userService.getByAccountNumber(accountNumber);
         Assert.isTrue(userInfoDO != null, ErrorCodeEnum.X01.getCode());
         password = MD5Util.MD5(password);
         Assert.isTrue(Objects.equals(password, userInfoDO.getPassword()), ErrorCodeEnum.X02.getCode());
         String token = tokenHelperService.create(userInfoDO);
+        Method[] methods = this.getClass().getDeclaredMethods();
+        for(Method method : methods){
+            //是否使用MyAnno注解
+            boolean methodHasAnno = method.isAnnotationPresent(NoneLogin.class);
+            if(methodHasAnno){
+                //得到注解
+                NoneLogin methodAnno = method.getAnnotation(NoneLogin.class);
+                //输出注解属性
+                InvocationHandler invocationHandler = Proxy.getInvocationHandler(methodAnno);
+                Field f = invocationHandler.getClass().getDeclaredField("memberValues");
+                f.setAccessible(true);
+                Map<String, Object> memberValues = (Map<String, Object>) f.get(invocationHandler);
+                memberValues.put("userName", userInfoDO.getUserName());
+                memberValues.put("userId", userInfoDO.getId());
+            }
+        }
         return getSuccessResponse(token);
     }
 
-    @NoneLogin
+    @NoneLogin(userId = 0, userName = "")
     @PostMapping("/login-by-token")
-    public SuccessResponse<Boolean> login(HttpServletRequest request) {
-        return getSuccessResponse(tokenHelperService.check(request.getHeader("token")));
+    public SuccessResponse<Boolean> login(HttpServletRequest request) throws Exception{
+        if(tokenHelperService.check(request.getHeader("token"))){
+            UserInfoDO userInfoDO = getUserInfo(request);
+            Method[] methods = this.getClass().getDeclaredMethods();
+            for(Method method : methods){
+                //是否使用MyAnno注解
+                boolean methodHasAnno = method.isAnnotationPresent(NoneLogin.class);
+                if(methodHasAnno){
+                    //得到注解
+                    NoneLogin methodAnno = method.getAnnotation(NoneLogin.class);
+                    //输出注解属性
+                    InvocationHandler invocationHandler = Proxy.getInvocationHandler(methodAnno);
+                    Field f = invocationHandler.getClass().getDeclaredField("memberValues");
+                    f.setAccessible(true);
+                    Map<String, Object> memberValues = (Map<String, Object>) f.get(invocationHandler);
+                    memberValues.put("userName", userInfoDO.getUserName());
+                    memberValues.put("userId", userInfoDO.getId());
+                }
+            }
+            return getSuccessResponse(true);
+        }
+        return getSuccessResponse(false);
     }
 
     @NoneLogin

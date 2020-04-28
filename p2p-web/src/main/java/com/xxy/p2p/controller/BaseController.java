@@ -104,5 +104,13 @@ public abstract class BaseController {
         return userId;
     }
 
+    protected UserInfoDO getUserById(Integer id){
+        List<UserInfoDO> userInfoDOS = userService.getByIdList(Arrays.asList(id));
+        if(!CollectionUtils.isEmpty(userInfoDOS)){
+            return userInfoDOS.get(0);
+        }
+        return null;
+    }
+
 
 }

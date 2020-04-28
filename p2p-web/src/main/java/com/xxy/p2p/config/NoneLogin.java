@@ -11,4 +11,6 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface NoneLogin {
+    int userId() default 0;
+     String userName() default "";
 }
