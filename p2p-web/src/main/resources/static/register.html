@@ -78,7 +78,10 @@
 									<input type="text" placeholder="邮箱" class="lg_input06 lg_input" id="mail">
 								</p>
 								<p class="mt20">
-									<input type="text" placeholder="性别" class="lg_input07 lg_input" id="gender">
+									<select id="select-menu" name="" class="lg_input06 lg_input">
+										<option value="1">男</option>
+										<option value="0">女</option>
+									</select>
 								</p>
 								 <p class="mt20">
 									 <a id="register" class="lg_btn">立即注册</a>
@@ -145,7 +148,7 @@
 			var age = $("#age").val();
 			var phone = $("#phone").val();
 			var mail = $("#mail").val();
-			var gender = $("#gender").val();
+			var gender = $("#select-menu option:selected").val();
 			if( account=="" || password=="" || userName == "" || age == "" || phone == "" || mail == "" ||gender == ""){
 				alert('请填写完整信息');
 				return ;
