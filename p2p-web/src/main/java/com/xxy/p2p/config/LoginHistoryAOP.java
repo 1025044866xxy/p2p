@@ -23,7 +23,7 @@ public class LoginHistoryAOP extends BaseController {
     @Autowired
     private LoginHistoryDAO loginHistoryDAO;
 
-    @Pointcut("execution(* com.xxy.p2p.controller.LoginController.login(..))")
+    @Pointcut("execution(* com.xxy.p2p.controller.LoginController.login*(..))")
     public void controller() {
     }
 
