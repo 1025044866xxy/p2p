@@ -72,36 +72,12 @@
 				<!-- end tit -->
 				<div class="det_intro_text mr20" id="borrow-detail">
 					<ul class="det_intro_tul2 clearfix" >
-						<li>
-							日利率<br>
-							<span style="color:#ff7112;">
-	  	     	    	  	    		 	 0.085%
-	  	     	    	  	    		 </span>
-						</li>
-						<li>
-							还款期限<br>
-							<span>
-	  	     	    	  	    		 	 7天
-	  	     	    	  	    		 </span>
-						</li>
-						<li>
-							借款金额区间<br>
-							<span >
-	  	     	    	  	    		 	 2000-4999元
-	  	     	    	  	    		 </span>
-						</li>
 
 					</ul>
 				</div>
 				<!-- end text -->
 			</div>
-			<div class="detail_intro_r fr">
-				<!--  -->
-				<p class="det_input">
-					<input type="text" placeholder="2000" id="money">
-				</p>
-				<p><a id="repayment" class=" pro_btn det_btn">立即还款</a></p>
-			</div>
+
 		</div>
 		<!-- 用户评结束 -->
 	</div>
@@ -157,7 +133,6 @@
 </div>
 <!-- footer end -->
 <script type="text/javascript">
-var id= window.location.href.split("?")[1].split("=")[1];
 $(document).ready(function(){
  	var token = $.cookie('token');
  	console.log($.cookie('token'));
@@ -182,10 +157,10 @@ $(document).ready(function(){
 				});
 		}
 
-    $.ajax({
+		$.ajax({
 					  type: 'GET',
-					  url: '/borrow/borrow-money/list',
-					  data : 'id='+id,
+					  url: '/borrow/total-info',
+					  data : '',
 					  dataType: "json",
 					  async:false,
 					  beforeSend: function (XMLHttpRequest) {
@@ -193,55 +168,23 @@ $(document).ready(function(){
 							},
 					  success: function(data){
 					  console.log(data.result);
-					  if(data.result != null){
-					  var div = document.getElementById('borrow-detail');
-						  $("#borrow-detail").empty();
-						  console.log(data.result.resultList[0].totalMoney-data.result.resultList[0].repayment);
-						  var x = data.result.resultList[0].totalMoney-data.result.resultList[0].repayment;
-						  var code = '<ul class="det_intro_tul2 clearfix">';
-						  code+='<li>借款'+data.result.resultList[0].money+'元<br></li>';
-						  code+='<li>已归还'+data.result.resultList[0].repayment+'元<br></li>';
-						  code+='<li>还需归还'+x+'元<br></li>';
-						  code+='</ul>'
-						  div.innerHTML = code;
-					  }else{
-						alert(data.errorDesc);
-						window.location.href = 'login.html';
-						}
-					  },
-				});
-	})
-	//点击登录事件
-  	$("#repayment").click(function(){
-  			var money = $("#money").val();
-  			if(money<=0){
-  			alert('请输入正确还款金额');
-  			return ;
-  			}
-    		var token = $.cookie('token');
-			//发送ajax请求
-			$.ajax({
-				  type: 'POST',
-				  url: '/borrow/repayment',
-				  dataType: "json",
-				  async:false,
-				  data: 'id='+id+'&money='+money,
-				  beforeSend: function (XMLHttpRequest) {
-							XMLHttpRequest.setRequestHeader("token", token);
-							},
-				  success: function(data){
-					  //如果密码错误，则把cookie中的password清空同时表单内容设置为空,同时清空验证码，刷新验证码
 					  if(data.result == null){
 						  alert(data.errorDesc);
-					  }else{ //登录成功跳转页
-						  window.location.href = '/borrow-detail.html';
+					  }else{
+					  var div = document.getElementById('borrow-detail');
+					  var code = '<ul class="det_intro_tul2 clearfix">';
+						  code+='<li>总借贷次数:'+data.result.totalCount+'次<br></li>';
+						  code+='<li>总借款:'+data.result.totalBorrowMoney+'元<br></li>';
+						  code+='<li>成功归还次数:'+data.result.successTotal+'次<br></li>';
+						  code+='<li>已归还:'+data.result.totalRepayment+'元<br></li>';
+						  code+='<li>逾期次数:'+data.result.failTotal+'次<br></li>';
+						  code+='<li>还需归还:'+data.result.totalMoney+'元<br></li>';
+						  code+='</ul>'
+						  div.innerHTML = code;
 					  }
-				  },
-			});
-
-
+					  },
 	});
-
+	});
 
 
 	//点击登录事件
@@ -274,6 +217,7 @@ $(document).ready(function(){
 	$("#click-borrow-info").click(function(){
     		window.location.href = 'borrow-all-info.html';
 	});
+
 
 </script>
 

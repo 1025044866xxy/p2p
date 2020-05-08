@@ -38,6 +38,7 @@
 		 	<span class="userName">我的账户
 		 	<img src="images/zxcf_icon01.png" alt=""></span>
 		 	<ul class="zxcf_perinfo" style="display:none;">
+				<li><a id="click-borrow-info">借贷信息总览</a></li>
 		 		<li><a id="cancel">退出</a></li>
 		 	</ul>
 		 </div>
@@ -407,6 +408,8 @@ $(document).ready(function(){
 					  },
 				});
 		}
+
+
 	})
 
 	//点击登录事件
@@ -432,6 +435,10 @@ $(document).ready(function(){
 					  }
 				  },
 			});
+	});
+	//点击登录事件
+  	$("#click-borrow-info").click(function(){
+    		window.location.href = 'borrow-all-info.html';
 	});
 
 </script>
