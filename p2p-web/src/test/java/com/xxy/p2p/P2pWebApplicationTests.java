@@ -9,6 +9,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -24,13 +27,10 @@ class P2pWebApplicationTests {
 
 		@Test
 		public void test() throws SQLException {
-			Connection data = dataSource.getConnection();
-
-			System.out.println("------" + data.getClass());
-
-			System.out.println("------" + dataSource.getClass());
-
-			data.close();
+			Date date = new Date();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			String s = df.format(date);
+			System.out.println(s);
 		}
 
 
