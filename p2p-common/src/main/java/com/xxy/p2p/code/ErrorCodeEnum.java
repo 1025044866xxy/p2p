@@ -15,6 +15,10 @@ public enum ErrorCodeEnum implements ErrorCodeInter {
     P01("P01","参数缺失"),
 
     E01("E01", "发生错误"),
+
+    Q01("Q01", "您目前的资质审核不通关，暂时无法进行放贷!"),
+    Q02("Q02","该笔贷款已经还清!"),
+    Q03("Q03","偿还金额超出剩余待还金额"),
     ;
 
     private String code;

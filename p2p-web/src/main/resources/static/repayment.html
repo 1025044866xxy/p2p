@@ -158,6 +158,7 @@
 
 <!-- footer end -->
 <script type="text/javascript">
+var repaymentX = 0;
 var id= window.location.href.split("?")[1].split("=")[1];
 $(document).ready(function(){
  	var token = $.cookie('token');
@@ -203,11 +204,11 @@ $(document).ready(function(){
 						  code+='<li>借款'+data.result.resultList[0].money+'元<br></li>';
 						  code+='<li>已归还'+data.result.resultList[0].repayment+'元<br></li>';
 						  code+='<li>还需归还'+x+'元<br></li>';
+						  repaymentX = x;
 						  code+='</ul>'
 						  div.innerHTML = code;
 					  }else{
 						alert(data.errorDesc);
-						window.location.href = 'login.html';
 						}
 					  },
 				});
@@ -215,7 +216,7 @@ $(document).ready(function(){
 	//点击登录事件
   	$("#repayment").click(function(){
   			var money = $("#money").val();
-  			if(money<=0){
+  			if(money <=0 || money > repaymentX){
   			alert('请输入正确还款金额');
   			return ;
   			}

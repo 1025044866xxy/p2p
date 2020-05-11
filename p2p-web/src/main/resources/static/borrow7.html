@@ -170,10 +170,11 @@
 <!-- footer end -->
 <!-- footer end -->
 <script type="text/javascript">
+var count = 0;
+var sex =0;
+var age = 0;
+var token = $.cookie('token');
 $(document).ready(function(){
- 	var token = $.cookie('token');
- 	console.log($.cookie('token'));
- 	console.log('111');
  	if(token != null && token != ""){
 		$.ajax({
 					  type: 'GET',
@@ -189,6 +190,8 @@ $(document).ready(function(){
 					  if(data.result != null){
 					  $(".userName").empty();
 					  $(".userName").text(data.result.userName);
+					  sex = data.result.gender;
+					  age = data.result.age;
 					  }
 					  },
 				});
@@ -196,12 +199,13 @@ $(document).ready(function(){
 	})
 	//点击登录事件
   	$("#borrow").click(function(){
-  			var money = $("#money").val();
+  	var flag = 0;
+  	var count = 0;
+			var money = $("#money").val();
   			if(((/^(\+|-)?\d+$/.test( money ))==false) ||(money <2000)|| (money >4999) ){
   			alert('请输入正确贷款金额');
   			return ;
   			}
-    		var token = $.cookie('token');
 			//发送ajax请求
 			$.ajax({
 				  type: 'POST',
@@ -246,10 +250,10 @@ $(document).ready(function(){
 						  alert(data.errorDesc);
 					  }else{ //登录成功跳转页
 						   $.cookie('token', "");
-
 						  window.location.href = '/index.html';
 					  }
 				  },
+
 			});
 
 
