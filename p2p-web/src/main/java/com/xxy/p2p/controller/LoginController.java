@@ -39,9 +39,13 @@ public class LoginController extends BaseController {
     @PostMapping("/login")
     public SuccessResponse<String> login(@NotBlank String accountNumber, @NotBlank String password) throws Exception {
         UserInfoDO userInfoDO = userService.getByAccountNumber(accountNumber);
-        Assert.isTrue(userInfoDO != null, ErrorCodeEnum.X01.getCode());
+        if(userInfoDO == null){
+            return getErrorResponse(ErrorCodeEnum.X01);
+        }
         password = MD5Util.MD5(password);
-        Assert.isTrue(Objects.equals(password, userInfoDO.getPassword()), ErrorCodeEnum.X02.getCode());
+        if(!Objects.equals(password, userInfoDO.getPassword())){
+            return getErrorResponse(ErrorCodeEnum.X02);
+        }
         String token = tokenHelperService.create(userInfoDO);
         Method[] methods = this.getClass().getDeclaredMethods();
         for(Method method : methods){

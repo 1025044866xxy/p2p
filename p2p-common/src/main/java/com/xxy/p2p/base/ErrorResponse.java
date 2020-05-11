@@ -1,6 +1,6 @@
 package com.xxy.p2p.base;
 
-public class ErrorResponse<T> {
+public class ErrorResponse<T> extends SuccessResponse{
     private static final long serialVersionUID = 5706330384328182339L;
     private String errorCode;
     private String errorDesc;
@@ -26,14 +26,6 @@ public class ErrorResponse<T> {
 
     public void setSuccess(boolean success){
         this.success = success;
-    }
-
-    public T getResult() {
-        return this.result;
-    }
-
-    public void setResult(T result) {
-        this.result = result;
     }
 
     public void setErrorCode(ErrorCodeInter errorCodeEnum) {

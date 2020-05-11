@@ -50,7 +50,9 @@ public class LoginHistoryAOP extends BaseController {
             loginHistory.setUserId(userId);
             loginHistory.setIp(ip);
             loginHistory.setUserName(userName);
-            loginHistoryDAO.insert(loginHistory);
+            if(userId != 0){
+                loginHistoryDAO.insert(loginHistory);
+            }
             return o;
         }
     }

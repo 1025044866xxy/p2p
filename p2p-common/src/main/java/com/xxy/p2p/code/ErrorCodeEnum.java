@@ -4,7 +4,7 @@ import com.xxy.p2p.base.ErrorCodeInter;
 
 public enum ErrorCodeEnum implements ErrorCodeInter {
     X01("X01", "用户不存在"),
-    X02("X02", "密码错误"),
+    X02("X02", "用户名与密码不匹配"),
     X03("X03", "用户已存在"),
     X04("X04", "请重新登录"),
 
