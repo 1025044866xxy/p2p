@@ -32,7 +32,8 @@ public class LoginHistoryAOP extends BaseController {
         Object o = null;
         try {
              o = joinPoint.proceed();
-        }finally {
+
+        }finally{
             ServletRequestAttributes sra = (ServletRequestAttributes)
                     (RequestContextHolder.getRequestAttributes());
             HttpServletRequest request = sra.getRequest();
