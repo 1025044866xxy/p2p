@@ -92,6 +92,8 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
             URLConnection conn = realUrl.openConnection();
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("user-agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
@@ -112,6 +114,7 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
                 result += line;
             }
         } catch (Exception e) {
+            result = "0";
             logger.info("调用资质审核接口有误!"+e);
         }
         //使用finally块来关闭输出流、输入流

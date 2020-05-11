@@ -201,6 +201,7 @@ $(document).ready(function(){
   			}
     		var token = $.cookie('token');
 			//发送ajax请求
+			alert('已为您开始审核办理,请等待结果!');
 			$.ajax({
 				  type: 'POST',
 				  url: '/borrow/borrow-money',
