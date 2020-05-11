@@ -1,5 +1,6 @@
 package com.xxy.p2p.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xxy.p2p.BaseService;
 import com.xxy.p2p.base.PageSet;
 import com.xxy.p2p.code.ErrorCodeEnum;
@@ -15,6 +16,7 @@ import com.xxy.p2p.entity.example.RepaymentExample;
 import com.xxy.p2p.entity.request.BorrowRequest;
 import com.xxy.p2p.service.BorrowService;
 import com.xxy.p2p.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -71,6 +73,7 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
     @Transactional
     @Override
     public Boolean borrowMoney(BorrowRequest borrowRequest) throws ParseException {
+        Integer flag = 0;
         Integer type = borrowRequest.getType();
         UserInfoDO userInfoDO =getUserById(borrowRequest.getUserId());
         StringBuilder url = new StringBuilder("PhoneCertification=1&HouseholdCertification=1");
@@ -114,7 +117,7 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
                 result += line;
             }
         } catch (Exception e) {
-            result = "0";
+            flag = 0;
             logger.info("调用资质审核接口有误!"+e);
         }
         //使用finally块来关闭输出流、输入流
@@ -131,7 +134,10 @@ public class BorrowServiceImpl extends BaseService implements BorrowService {
                 ex.printStackTrace();
             }
         }
-        Integer flag = Integer.parseInt(result);
+        if(StringUtils.isNotBlank(result)){
+            JSONObject jsonObject = JSONObject.parseObject(result);
+            flag = (Integer) jsonObject.get("result");
+        }
         Assert.isTrue(flag == 1, ErrorCodeEnum.Q01.getCode());
         BorrowDO borrowDO = new BorrowDO();
         BeanUtils.copyProperties(borrowRequest, borrowDO);

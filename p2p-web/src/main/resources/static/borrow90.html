@@ -207,7 +207,7 @@ $(document).ready(function(){
 				  url: '/borrow/borrow-money',
 				  dataType: "json",
 				  async:false,
-				  data: 'type=1&interest=0.0007'+'&money='+money,
+				  data: 'type=3&interest=0.0007'+'&money='+money,
 				  beforeSend: function (XMLHttpRequest) {
 							XMLHttpRequest.setRequestHeader("token", token);
 							},
